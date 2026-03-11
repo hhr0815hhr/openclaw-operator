@@ -3,11 +3,12 @@ kind: OpenClawInstance
 metadata:
   labels:
     app.kubernetes.io/name: openclaw-operator
+  namespace: openclaw
   name: openclaw-sample
 spec:
   instanceId: "sample-instance-001"
   userId: "user-123456"
-  image: "openclaw/openclaw:latest"
+  image: "harbor.gss.run/library/openclaw:latest"
   plan: "free"
   resources:
     cpu: "250m"

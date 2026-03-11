@@ -26,10 +26,9 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/util/intstr"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -350,9 +349,8 @@ func (r *OpenClawInstanceReconciler) createDeployment(instance *openclawv1alpha1
 							},
 							LivenessProbe: &corev1.Probe{
 								ProbeHandler: corev1.ProbeHandler{
-									HTTPGet: &corev1.HTTPGetAction{
-										Path: "/health",
-										Port: intstr.FromInt(18789),
+									Exec: &corev1.ExecAction{
+										Command: []string{"/bin/bash", "-c", "curl -f http://localhost:18789/health"},
 									},
 								},
 								InitialDelaySeconds: 30,
@@ -360,9 +358,8 @@ func (r *OpenClawInstanceReconciler) createDeployment(instance *openclawv1alpha1
 							},
 							ReadinessProbe: &corev1.Probe{
 								ProbeHandler: corev1.ProbeHandler{
-									HTTPGet: &corev1.HTTPGetAction{
-										Path: "/health",
-										Port: intstr.FromInt(18789),
+									Exec: &corev1.ExecAction{
+										Command: []string{"/bin/bash", "-c", "curl -f http://localhost:18789/health"},
 									},
 								},
 								InitialDelaySeconds: 5,

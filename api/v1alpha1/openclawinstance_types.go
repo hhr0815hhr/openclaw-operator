@@ -141,12 +141,12 @@ type OpenClawInstanceList struct {
 
 // Phase constants
 const (
-	PhasePending    = "Pending"
-	PhaseCreating   = "Creating"
-	PhaseRunning    = "Running"
-	PhaseStopped    = "Stopped"
-	PhaseError      = "Error"
-	PhaseDeleting   = "Deleting"
+	PhasePending  = "Pending"
+	PhaseCreating = "Creating"
+	PhaseRunning  = "Running"
+	PhaseStopped  = "Stopped"
+	PhaseError    = "Error"
+	PhaseDeleting = "Deleting"
 )
 
 // Condition types
