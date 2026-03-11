@@ -34,6 +34,10 @@ Thumbs.db
 # Kubernetes config with secrets
 config/*/*.yaml
 !config/crd/bases/
+!config/crd/kustomization.yaml
+!config/rbac/*.yaml
+!config/manager/*.yaml
+!config/default/*.yaml
 !config/samples/
 
 # Local config
