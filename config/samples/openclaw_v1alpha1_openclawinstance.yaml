@@ -1,0 +1,26 @@
+apiVersion: openclaw.platform/v1alpha1
+kind: OpenClawInstance
+metadata:
+  labels:
+    app.kubernetes.io/name: openclaw-operator
+  name: openclaw-sample
+spec:
+  instanceId: "sample-instance-001"
+  userId: "user-123456"
+  image: "openclaw/openclaw:latest"
+  plan: "free"
+  resources:
+    cpu: "250m"
+    memory: "512Mi"
+    cpuLimit: "1000m"
+    memoryLimit: "2Gi"
+  config: |
+    {
+      "agent": {
+        "model": "anthropic/claude-sonnet-4-20250514"
+      },
+      "gateway": {
+        "bind": "0.0.0.0",
+        "port": 18789
+      }
+    }
