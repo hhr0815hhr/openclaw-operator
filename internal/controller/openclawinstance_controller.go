@@ -27,6 +27,7 @@ import (
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/api/resource"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/intstr"
 	"k8s.io/client-go/tools/record"
@@ -333,12 +334,12 @@ func (r *OpenClawInstanceReconciler) createDeployment(instance *openclawv1alpha1
 							},
 							Resources: corev1.ResourceRequirements{
 								Requests: corev1.ResourceList{
-									corev1.ResourceCPU:    resource.MustParse(instance.Spec.Resources.CPU),
-									corev1.ResourceMemory: resource.MustParse(instance.Spec.Resources.Memory),
+									corev1.ResourceCPU:    mustParseResource(instance.Spec.Resources.CPU),
+									corev1.ResourceMemory: mustParseResource(instance.Spec.Resources.Memory),
 								},
 								Limits: corev1.ResourceList{
-									corev1.ResourceCPU:    resource.MustParse(instance.Spec.Resources.CPULimit),
-									corev1.ResourceMemory: resource.MustParse(instance.Spec.Resources.MemoryLimit),
+									corev1.ResourceCPU:    mustParseResource(instance.Spec.Resources.CPULimit),
+									corev1.ResourceMemory: mustParseResource(instance.Spec.Resources.MemoryLimit),
 								},
 							},
 							VolumeMounts: []corev1.VolumeMount{
@@ -391,6 +392,15 @@ func (r *OpenClawInstanceReconciler) createDeployment(instance *openclawv1alpha1
 // Helper functions
 func int32Ptr(i int32) *int32 {
 	return &i
+}
+
+func hostPathTypePtr(t corev1.HostPathType) *corev1.HostPathType {
+	return &t
+}
+
+func mustParseResource(s string) resource.Quantity {
+	q, _ := resource.ParseQuantity(s)
+	return q
 }
 
 func needsUpdate(existing, desired *appsv1.Deployment) bool {
